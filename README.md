@@ -8,7 +8,10 @@ It also removes the need to holepunch the recently view blocks.
 
 **This extension is provided as is.**
 
-The extension is tested in Google Chrome, feel free to test it in other browsers and fill up the list.
+Tested browsers: Google Chrome
+Tested Magento versions: 1.9.2.4
+
+Feel free to test in other browsers / Magento versions and create a pullrequest for the README.
 
 ## Features
 
