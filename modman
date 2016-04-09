@@ -1,0 +1,5 @@
+app/etc/modules/Toonvd_Recentlyviewed.xml       app/etc/modules/Toonvd_Recentlyviewed.xml
+app/code/community/Toonvd/Recentlyviewed/       app/code/community/Toonvd/Recentlyviewed/
+app/design/frontend/base/default/layout/toonvd/recentlyviewed.xml   app/design/frontend/base/default/layout/toonvd/recentlyviewed.xml
+app/design/frontend/base/default/template/toonvd/recentlyviewed/   app/design/frontend/base/default/template/toonvd/recentlyviewed/
+js/toonvd/recentlyviewed.js    js/toonvd/recentlyviewed.js
