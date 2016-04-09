@@ -22,7 +22,7 @@ before_script:
   
 script:
   - php vendor/bin/parallel-lint --exclude vendor .
-  - php vendor/bin/phpcs --standard=vendor/magento-ecg/coding-standard/Ecg --ignore=lib .
+  - php vendor/bin/phpcs --standard=vendor/magento-ecg/coding-standard/Ecg --ignore=lib --ignore=vendor .
   - php vendor/bin/phpcpd --exclude=vendor --exclude=lib .
   - php vendor/bin/phpdcd --exclude=vendor --exclude=lib .
 
