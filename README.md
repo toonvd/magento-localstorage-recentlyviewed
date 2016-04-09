@@ -13,7 +13,8 @@ It also removes the need to holepunch the recently view blocks.
 
 Tested browsers: 
 * Google Chrome
-* firefox
+* Firefox
+* Safari
 
 Tested Magento versions:
 * 1.9.2.4
