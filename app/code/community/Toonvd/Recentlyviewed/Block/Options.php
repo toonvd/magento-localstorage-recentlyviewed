@@ -19,7 +19,7 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
     /**
      * @var Mage_Catalog_Model_Product
      */
-    private $product;
+    protected $product;
 
     /**
      * Init product if exists

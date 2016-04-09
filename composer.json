@@ -1,0 +1,29 @@
+{
+  "name": "toonvd/recentlyviewed",
+  "type": "magento-module",
+  "license": "OSL-3.0",
+  "homepage": "https://github.com/toonvd/magento-localstorage-recentlyviewed.git",
+  "description": "Local storage recently viewed for Magento.",
+  "authors": [
+    {
+      "name": "Toon Van Dooren",
+      "email": "toon_vd@live.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "magento-hackathon/magento-composer-installer": "3.*"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "2.*",
+    "magento-ecg/coding-standard": "dev-master",
+    "sebastian/phpdcd": "*",
+    "sebastian/phpcpd": "*",
+    "jakub-onderka/php-parallel-lint": "0.*",
+    "jakub-onderka/php-console-highlighter": "0.*",
+    "phpmd/phpmd": "@stable"
+  },
+  "extra": {
+    "magento-root-dir": "."
+  }
+}

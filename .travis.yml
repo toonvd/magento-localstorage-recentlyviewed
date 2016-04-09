@@ -1,0 +1,28 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm
+
+matrix:
+  allow_failures:
+    - php: hhvm
+    - php: 5.6
+
+env:
+  matrix:
+    - MAGENTO_VERSION=magento-ce-1.9.2.4
+
+before_script:
+  - composer self-update
+  - composer install --no-interaction
+  - php vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+  
+script:
+  - php vendor/bin/parallel-lint --exclude vendor .
+  - php vendor/bin/phpcs --standard=vendor/magento-ecg/coding-standard/Ecg --ignore=lib --ignore=vendor .
+  - php vendor/bin/phpcpd --exclude=vendor --exclude=lib .
+  - php vendor/bin/phpdcd --exclude=vendor --exclude=lib .
+
