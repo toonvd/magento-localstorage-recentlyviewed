@@ -58,12 +58,14 @@ Toonvd.Recentlyviewed = Class.create({
     },
     createRecentlyViewedList: function () {
         var recentlyViewedScopeList = this.recentlyViewedFullList[this.config.desiredScopeAndId];
-        var recentlyViewedScopeListLength = Object.keys(recentlyViewedScopeList).length;
+        var recentlyViewedScopeListKeys = Object.keys(recentlyViewedScopeList);
+        var recentlyViewedScopeListLength = recentlyViewedScopeListKeys.length;
         if (recentlyViewedScopeListLength > 0) {
             var recentlyViewedHtml = "";
-            for (var key in recentlyViewedScopeList) {
-                recentlyViewedHtml += recentlyViewedScopeList[key];
-            }
+            Object.keys(recentlyViewedScopeList).sort().reverse().forEach(function (key) {
+                var finalKeys = Object.keys(recentlyViewedScopeList[key]);
+                recentlyViewedHtml += recentlyViewedScopeList[key][finalKeys[0]];
+            });
             this.container.down("ol").innerHTML = recentlyViewedHtml;
             this.container.show();
         }
@@ -88,15 +90,30 @@ Toonvd.Recentlyviewed = Class.create({
         var desiredScopeAndId = this.config.desiredScopeAndId;
         var objectForStorage = this.objectForStorage;
         var storage = this.getClientSideStorage();
-        if (objectForStorage[desiredScopeAndId][productId] === undefined) {
-            objectForStorage[desiredScopeAndId][productId] = this.container.innerHTML;
-            var objectForStorageKeys = Object.keys(objectForStorage[desiredScopeAndId]);
+        var currentScopeObject = objectForStorage[desiredScopeAndId];
+        this.currentScopeObject = currentScopeObject;
+
+        if (!this.productExistsInStorage()) {
+            currentScopeObject[Date.now()] = {};
+            currentScopeObject[Date.now()][productId] = this.container.innerHTML;
+            var objectForStorageKeys = Object.keys(currentScopeObject);
             var recentlyViewedScopeListLength = objectForStorageKeys.length;
             if (recentlyViewedScopeListLength > this.config.maxLength) {
                 var firstKey = objectForStorageKeys[0];
-                delete objectForStorage[desiredScopeAndId][firstKey];
+                delete currentScopeObject[firstKey];
             }
             storage.setItem("Toonvd_Recentlyviewed", JSON.stringify(objectForStorage));
         }
+    },
+    productExistsInStorage: function () {
+        var hasProductInObject = false;
+        var currentScopeObject = this.currentScopeObject;
+        var productId = this.config.productId;
+        Object.keys(currentScopeObject).forEach(function (key) {
+            if (currentScopeObject[key][productId]) {
+                hasProductInObject = true;
+            }
+        });
+        return hasProductInObject;
     }
 });
