@@ -4,9 +4,6 @@ engines:
     enabled: true
     config:
       languages:
-      - ruby
-      - javascript
-      - python
       - php
   eslint:
     enabled: true
@@ -16,11 +13,7 @@ engines:
     enabled: true
 ratings:
   paths:
-  - "**.inc"
   - "**.js"
-  - "**.jsx"
-  - "**.module"
   - "**.php"
-  - "**.py"
-  - "**.rb"
+  - "**.phtml"
 exclude_paths: []
