@@ -14,6 +14,7 @@ It also removes the need to holepunch the recently view blocks.
 Tested browsers: 
 * Google Chrome
 * firefox
+
 Tested Magento versions:
 * 1.9.2.4
 
