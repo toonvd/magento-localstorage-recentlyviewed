@@ -1,4 +1,6 @@
 # Toonvd_Recentlyviewed
+[![Build Status](https://travis-ci.org/toonvd/magento-localstorage-recentlyviewed.svg?branch=master)](https://travis-ci.org/toonvd/magento-localstorage-recentlyviewed)
+[![Code Climate](https://codeclimate.com/github/toonvd/magento-localstorage-recentlyviewed/badges/gpa.svg)](https://codeclimate.com/github/toonvd/magento-localstorage-recentlyviewed)
 
 Toonvd_Recentlyviewed was written to reduce the number of hits on the product and category pages.
 

@@ -16,7 +16,6 @@
 if (!window.Toonvd) {
     window.Toonvd = {};
 }
-;
 
 Toonvd.Recentlyviewed = Class.create({
 
@@ -24,11 +23,11 @@ Toonvd.Recentlyviewed = Class.create({
 
         this.container = $(container);
         this.config = config;
-        if (this.container != undefined) {
-            if (container == "recently-viewed") {
+        if (this.container !== undefined) {
+            if (container === "recently-viewed") {
                 this.initRecentlyViewedBlock();
             }
-            else if (container == "recently-viewed-listitem") {
+            else if (container === "recently-viewed-listitem") {
                 this.addListItemToStorage();
             }
         }
