@@ -29,7 +29,7 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
         if (is_object(Mage::registry("current_product"))) {
             $this->product = Mage::registry("current_product");
         }
-        return parent::__construct();
+        parent::__construct();
     }
 
     /**
