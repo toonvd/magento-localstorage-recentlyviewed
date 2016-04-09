@@ -22,5 +22,5 @@ This extension uses the core settings for recently viewed.
 
 The settings can be found here:
 
-System -> Configuration -> Catalog -> Recently Viewed/Compared Products
+**System -> Configuration -> Catalog -> Recently Viewed/Compared Products**
 
