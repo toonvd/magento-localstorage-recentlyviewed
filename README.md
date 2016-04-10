@@ -7,6 +7,10 @@ Toonvd_Recentlyviewed was written to reduce the number of hits on the product an
 
 It also removes the need to holepunch the recently view blocks.
 
+## Demo
+
+http://test.services.weepee.net/accessories/jewelry.html
+
 ## Status
 
 **This extension is provided as is.**
