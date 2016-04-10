@@ -29,9 +29,9 @@ http://opensource.org/licenses/osl-3.0.php
     <frontend>
         <layout>
             <updates>
-                <ecomdev_varnish>
+                <toonvd_recentlyviewed>
                     <file>toonvd/recentlyviewed.xml</file>
-                </ecomdev_varnish>
+                </toonvd_recentlyviewed>
             </updates>
         </layout>
     </frontend>
