@@ -22,17 +22,21 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
     protected $product;
 
     /**
-     * Init product if exists
+     * Initializes product object if it exists
      */
     public function __construct()
     {
-        if (is_object(Mage::registry("current_product"))) {
+        if (is_object(Mage::registry("current_product")) &&
+            !is_object($this->product)
+        ) {
             $this->product = Mage::registry("current_product");
         }
         parent::__construct();
     }
 
     /**
+     * Gets recently viewed block title.
+     *
      * @return mixed
      */
     public function getListBlockTitle()
@@ -41,6 +45,8 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
     }
 
     /**
+     * Returns scope type and current scope id.
+     *
      * @return string
      */
     public function getDesiredScopeAndId()
@@ -63,6 +69,8 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
     }
 
     /**
+     * Fetches the product url for images and links.
+     *
      * @return string
      */
     public function getProductUrl()
@@ -71,6 +79,8 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
     }
 
     /**
+     * Fetches the product image.
+     *
      * @return Mage_Catalog_Helper_Image
      */
     public function getProductImage()
@@ -80,6 +90,8 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
     }
 
     /**
+     * Fetches the product name the core way.
+     *
      * @return string
      */
     public function getProductName()
@@ -88,6 +100,8 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
     }
 
     /**
+     * Fetches the product id.
+     *
      * @return mixed
      */
     public function getProductId()
@@ -96,6 +110,8 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
     }
 
     /**
+     * Fetches max recently viewed list length.
+     *
      * @return mixed
      */
     public function getMaxLength()
@@ -103,7 +119,14 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
         return $this->getConfig('catalog/recently_products/viewed_count');
     }
 
-    protected function getConfig($configPath){
+    /**
+     * Gets configuration by path.
+     *
+     * @param $configPath
+     * @return mixed
+     */
+    protected function getConfig($configPath)
+    {
         $config = Mage::getStoreConfig($configPath);
         return $config;
     }
