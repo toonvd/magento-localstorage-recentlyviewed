@@ -45,7 +45,7 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
      */
     public function getDesiredScopeAndId()
     {
-        $desiredScope = $this->getStoreConfig('catalog/recently_products/scope');
+        $desiredScope = $this->getConfig('catalog/recently_products/scope');
 
         switch ($desiredScope) {
             case 'website':
@@ -100,7 +100,7 @@ class Toonvd_Recentlyviewed_Block_Options extends Mage_Core_Block_Template
      */
     public function getMaxLength()
     {
-        return $this->getStoreConfig('catalog/recently_products/viewed_count');
+        return $this->getConfig('catalog/recently_products/viewed_count');
     }
 
     protected function getConfig($configPath){
