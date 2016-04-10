@@ -20,6 +20,7 @@ if (!window.Toonvd) {
 Toonvd.Recentlyviewed = Class.create({
     /***
      * Initializes the current class
+     *
      * @param container
      * @param config
      */
@@ -40,6 +41,7 @@ Toonvd.Recentlyviewed = Class.create({
     },
     /***
      * Fetches client side storage type.
+     *
      * @returns {*}
      */
     getClientSideStorage: function () {
@@ -132,6 +134,7 @@ Toonvd.Recentlyviewed = Class.create({
     },
     /***
      * Checks the client side storage object for existing products
+     *
      * @returns {boolean}
      */
     productExistsInStorage: function () {
