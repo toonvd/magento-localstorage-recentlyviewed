@@ -22,6 +22,7 @@ http://opensource.org/licenses/osl-3.0.php
         </reference>
         <reference name="right">
             <remove name="right.reports.product.viewed"/>
+	    <remove name="left.reports.product.viewed" />
             <block type="toonvd_recentlyviewed/options" name="toonvd.recentlyviewed.list"
                    before="right.permanent.callout"
                    template="toonvd/recentlyviewed/placeholder.phtml"/>
