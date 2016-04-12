@@ -1,4 +1,4 @@
-/***
+/**
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Open Software License (OSL 3.0)
@@ -13,12 +13,12 @@
  * @author     Toon Van Dooren <toon_vd@live.com>
  */
 
-if (!window.Toonvd) {
+if (typeof window.Toonvd !== 'object') {
     window.Toonvd = {};
 }
 
 Toonvd.Recentlyviewed = Class.create({
-    /***
+    /**
      * Initializes the current class
      *
      * @param container
@@ -39,7 +39,7 @@ Toonvd.Recentlyviewed = Class.create({
         }
 
     },
-    /***
+    /**
      * Fetches client side storage type.
      *
      * @returns {*}
@@ -54,102 +54,110 @@ Toonvd.Recentlyviewed = Class.create({
 
         return false;
     },
-    /***
+    /**
      * Checks if browser supports client side storage and starts creation of the list.
      */
     initRecentlyViewedBlock: function () {
 
         var storage = this.getClientSideStorage();
-
-        if (storage !== false) {
-            var recentlyViewedFullList = JSON.parse(storage.getItem("Toonvd_Recentlyviewed"));
-            if (recentlyViewedFullList !== null) {
-                this.recentlyViewedFullList = recentlyViewedFullList;
-                this.createRecentlyViewedList();
-            }
+        if (!storage) {
+            return false;
         }
 
+        var recentlyViewedFullList = JSON.parse(storage.getItem("Toonvd_Recentlyviewed"));
+        if (!recentlyViewedFullList) {
+            return false;
+        }
+
+        return this.createRecentlyViewedList(recentlyViewedFullList);
     },
-    /***
+    /**
      * Creates recently viewed list for the block + shows the block.
      */
-    createRecentlyViewedList: function () {
+    createRecentlyViewedList: function (recentlyViewedFullList) {
 
-        var recentlyViewedScopeList = this.recentlyViewedFullList[this.config.desiredScopeAndId];
-        var recentlyViewedScopeListKeys = Object.keys(recentlyViewedScopeList);
+        var recentlyViewedScopeList = recentlyViewedFullList[this.config.desiredScopeAndId];
 
-        if (recentlyViewedScopeListKeys.length > 0) {
-            var recentlyViewedHtml = "";
-            Object.keys(recentlyViewedScopeList).sort().reverse().forEach(function (key) {
-                var finalKeys = Object.keys(recentlyViewedScopeList[key]);
-                recentlyViewedHtml += recentlyViewedScopeList[key][finalKeys[0]];
-            });
-            this.container.down("ol").innerHTML = recentlyViewedHtml;
-            this.container.show();
+        if (recentlyViewedScopeList.length <= 0) {
+            return false;
         }
 
+        var recentlyViewedHtml = "";
+        recentlyViewedScopeList.reverse().forEach(function loopThroughRecentlyViewed(html) {
+            recentlyViewedHtml += html.escapeHTML();
+        });
+
+        this.container.down("ol").innerHTML = recentlyViewedHtml;
+        this.container.show();
     },
-    /***
+    /**
      * Prepare the object and add to client side storage if condition applies.
      */
     addListItemToStorage: function () {
 
         var storage = this.getClientSideStorage();
 
-        if (storage !== false) {
-            var desiredScopeAndId = this.config.desiredScopeAndId;
-            var objectForStorage = {};
-            objectForStorage[desiredScopeAndId] = {};
-            var recentlyViewedList = storage.getItem("Toonvd_Recentlyviewed");
-            if (recentlyViewedList !== null) {
-                objectForStorage = JSON.parse(recentlyViewedList);
-            }
-            this.objectForStorage = objectForStorage;
-            this.addItemToList();
+        if (!storage) {
+            return false;
         }
 
+        var objectForStorage = {};
+        var desiredScopeAndId = this.config.desiredScopeAndId;
+        objectForStorage[desiredScopeAndId] = [];
+
+        var recentlyViewedList = storage.getItem("Toonvd_Recentlyviewed");
+        // If localstorage already exists. Parse and add it to object
+        if (recentlyViewedList !== null) {
+            objectForStorage = JSON.parse(recentlyViewedList);
+        }
+
+        this.addItemToList(objectForStorage);
     },
-    /***
+    /**
      * Adds product HTML to the client side storage object if it does not exist.
      * Timestamp is used so the object orders by last products viewed.
      */
-    addItemToList: function () {
+    addItemToList: function (objectForStorage) {
 
         var storage = this.getClientSideStorage();
-        var currentScopeObject = this.objectForStorage[this.config.desiredScopeAndId];
-        this.currentScopeObject = currentScopeObject;
+        var currentScopeObject = objectForStorage[this.config.desiredScopeAndId];
 
-        if (!this.productExistsInStorage()) {
-            currentScopeObject[Date.now()] = {};
-            currentScopeObject[Date.now()][this.config.productId] = this.container.innerHTML;
-            var objectForStorageKeys = Object.keys(currentScopeObject);
-            var recentlyViewedScopeListLength = objectForStorageKeys.length;
-            if (recentlyViewedScopeListLength > this.config.maxLength) {
-                var firstKey = objectForStorageKeys[0];
-                delete currentScopeObject[firstKey];
-            }
-            storage.setItem("Toonvd_Recentlyviewed", JSON.stringify(this.objectForStorage));
+        if (this.productExistsInStoreScopeObject(currentScopeObject)) {
+            return false;
         }
 
+        var itemObject = {};
+        itemObject[this.config.productId] = this.container.innerHTML.escapeHTML();
+        currentScopeObject = [];
+
+        var recentlyViewedScopeListLength = currentScopeObject.length;
+        if (recentlyViewedScopeListLength > this.config.maxLength) {
+            var removeItemsCount = recentlyViewedScopeListLength - this.config.maxLength;
+            currentScopeObject = currentScopeObject.splice(0, removeItemsCount)
+        }
+        currentScopeObject.push(itemObject);
+
+        objectForStorage[this.config.desiredScopeAndId] = currentScopeObject;
+        
+        storage.setItem("Toonvd_Recentlyviewed", JSON.stringify(objectForStorage));
     },
-    /***
+    /**
      * Checks the client side storage object for existing products
      *
      * @returns {boolean}
      */
-    productExistsInStorage: function () {
+    productExistsInStoreScopeObject: function (storeScopeObject) {
 
-        var hasProductInObject = false;
-        var currentScopeObject = this.currentScopeObject;
+        var hasProductInStoreScope = false;
         var productId = this.config.productId;
 
-        Object.keys(currentScopeObject).forEach(function (key) {
-            if (currentScopeObject[key][productId]) {
-                hasProductInObject = true;
+        storeScopeObject.forEach(function (productObject) {
+            if (productObject[productId]) {
+                hasProductInStoreScope = true;
             }
         });
 
-        return hasProductInObject;
+        return hasProductInStoreScope;
 
     }
 });
