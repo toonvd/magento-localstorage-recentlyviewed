@@ -77,14 +77,14 @@ Toonvd.Recentlyviewed = Class.create({
     createRecentlyViewedList: function (recentlyViewedFullList) {
 
         var recentlyViewedScopeList = recentlyViewedFullList[this.config.desiredScopeAndId];
-
         if (recentlyViewedScopeList.length <= 0) {
             return false;
         }
 
+        console.log(recentlyViewedFullList);
         var recentlyViewedHtml = "";
-        recentlyViewedScopeList.reverse().forEach(function loopThroughRecentlyViewed(html) {
-            recentlyViewedHtml += html.escapeHTML();
+        recentlyViewedScopeList.reverse().forEach(function loopThroughRecentlyViewed(item) {
+            recentlyViewedHtml += item.html;
         });
 
         this.container.down("ol").innerHTML = recentlyViewedHtml;
@@ -118,24 +118,25 @@ Toonvd.Recentlyviewed = Class.create({
      * Timestamp is used so the object orders by last products viewed.
      */
     addItemToList: function (objectForStorage) {
-
+        var productId = this.config.productId;
         var storage = this.getClientSideStorage();
-        var currentScopeObject = objectForStorage[this.config.desiredScopeAndId];
+        var currentScopeObject = objectForStorage[this.config.desiredScopeAndId] || [];
 
         if (this.productExistsInStoreScopeObject(currentScopeObject)) {
             return false;
         }
 
-        var itemObject = {};
-        itemObject[this.config.productId] = this.container.innerHTML.escapeHTML();
-        currentScopeObject = [];
+        currentScopeObject.push({
+            productId: productId,
+            html: this.container.innerHTML
+        });
 
         var recentlyViewedScopeListLength = currentScopeObject.length;
         if (recentlyViewedScopeListLength > this.config.maxLength) {
             var removeItemsCount = recentlyViewedScopeListLength - this.config.maxLength;
-            currentScopeObject = currentScopeObject.splice(0, removeItemsCount)
+            // Remove oldest items from array when maxLength config is exceeded
+            currentScopeObject = currentScopeObject.splice(removeItemsCount, recentlyViewedScopeListLength)
         }
-        currentScopeObject.push(itemObject);
 
         objectForStorage[this.config.desiredScopeAndId] = currentScopeObject;
         
@@ -151,9 +152,11 @@ Toonvd.Recentlyviewed = Class.create({
         var hasProductInStoreScope = false;
         var productId = this.config.productId;
 
-        storeScopeObject.forEach(function (productObject) {
-            if (productObject[productId]) {
+        // Use some instead of forEach for faster check
+        storeScopeObject.some(function(item) {
+            if(productId === item.productId) {
                 hasProductInStoreScope = true;
+                return true;
             }
         });
 
