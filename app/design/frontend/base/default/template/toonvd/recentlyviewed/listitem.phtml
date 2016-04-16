@@ -16,31 +16,17 @@
 ?>
 <?php
 $_item = $this->getCurrentProduct();
-$desiredScopeAndId = $this->getDesiredScopeAndId();
-$maxLength = $this->getMaxLength();
 ?>
-<div class="recently-viewed-listitem" id="recently-viewed-listitem" style="display:none;">
-    <li class="item">
-        <a href="<?php echo $this->getProductUrl() ?>">
-            <span class="product-image"><img src="<?php echo $this->getProductImage(); ?>"
-                                             width="50" height="50"
-                                             alt="<?php echo $this->escapeHtml($this->getProductName()) ?>"/></span>
-        </a>
-
-        <div class="product-details">
-            <p class="product-name">
-                <a href="<?php echo $this->getProductUrl() ?>">
-                    <?php echo $this->getProductName() ?>
-                </a>
-            </p>
-        </div>
-    </li>
-</div>
 <script type="text/javascript">
     var recentlyViewedConfig = {
-        desiredScopeAndId: "<?php echo $desiredScopeAndId ?>",
+        desiredScopeAndId: '<?php echo $this->getDesiredScopeAndId(); ?>',
         productId:<?php echo $this->getProductId(); ?>,
-        maxLength:<?php echo $maxLength ?>
+        maxLength:<?php echo $this->getMaxLength(); ?>,
+        productInfo: {
+            name: '<?php echo $this->getProductName(); ?>',
+            url: '<?php echo $this->getProductUrl(); ?>',
+            imageUrl: '<?php echo $this->getProductImage(); ?>'
+        }
     };
     new Toonvd.Recentlyviewed("recently-viewed-listitem", recentlyViewedConfig);
 </script>
