@@ -85,7 +85,14 @@ Toonvd.Recentlyviewed = Class.create({
     var recentlyViewedHtml = "";
     recentlyViewedScopeList.reverse().forEach(function loopThroughRecentlyViewed (item) {
       var productInfo = item.productInfo;
-      
+
+      // Escape all input vars
+      for(var key in productInfo) {
+        if(productInfo.hasOwnProperty(key)) {
+          productInfo[key] = productInfo[key].escapeHTML()
+        }
+      }
+
       var li = document.createElement('li');
       li.setAttribute('class', 'item');
 
